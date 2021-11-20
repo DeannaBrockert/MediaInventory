@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -14,10 +15,14 @@ namespace MediaInventory.Models
         }
 
         public int MediaId { get; set; }
+        [Required (ErrorMessage = "Please enter a media title.")]
         public string MediaName { get; set; }
         public DateTime ReleaseDate { get; set; }
+        [Required (ErrorMessage = "Please select a media type.")]
         public int MediaTypeId { get; set; }
+        [Required (ErrorMessage = "Please select a status.")]
         public int StatusId { get; set; }
+        [Required (ErrorMessage = "Please select a genre.")]
         public int GenreId { get; set; }
 
         public virtual Genre Genre { get; set; }

@@ -3,7 +3,7 @@
     ViewBag.Title = "Media Manager";
 }
 <h1>@ViewBag.Title</h1>
-
+<a asp-controller="Media" asp-action="Add">Add a media</a>
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -25,6 +25,8 @@
             <td>@media.GenreId</td>
             <td>@media.StatusId</td>
             <td>@media.MediaTypeId</td>
+            <td><a asp-controller="Media" asp-action="Edit" asp-route-id="@media.MediaId">Edit</a></td>
+            <td><a asp-controller="Media" asp-action="Delete" asp-route-id="@media.MediaId">Delete</a></td>
         </tr>
         }
     </tbody>
