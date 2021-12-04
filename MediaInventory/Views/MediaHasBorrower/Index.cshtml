@@ -1,0 +1,30 @@
+﻿@model List<MediaHasBorrower>
+@{
+    ViewBag.Title = "Checkout Manager";
+}
+<h1>@ViewBag.Title</h1>
+<a asp-controller="MediaHasBorrower" asp-action="Add">Add a Checkout</a>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Media Name</th>
+            <th>Borrower Last Name</th>
+            <th>Borrower First Name</th>
+            <th>Borrowed Date</th>
+            <th>Returned Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var mediaHasBorrower in Model)
+        {
+            <tr>
+                <td>@mediaHasBorrower.Media.MediaName</td>
+                <td>@mediaHasBorrower.Borrower.LastName</td>
+                <td>@mediaHasBorrower.Borrower.FirstName</td>
+                <td>@mediaHasBorrower.BorrowDate</td>
+                <td>@mediaHasBorrower.ReturnDate</td>
+                <td><a asp-controller="MediaHasBorrower" asp-action="Edit" asp-route-id="@mediaHasBorrower.MediaHasBorrowerId">Edit</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

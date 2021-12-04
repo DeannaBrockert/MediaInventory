@@ -19,5 +19,54 @@ namespace MediaInventory.Controllers
             List<Borrower> borrowers = context.Borrowers.OrderBy(a => a.FirstName).ThenBy(a => a.LastName).ToList();
             return View(borrowers);
         }
+        [HttpGet]
+        public IActionResult Add()
+        {
+            ViewBag.Action = "Add";
+            return View("Edit", new Borrower());
+        }
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            ViewBag.Action = "Edit";
+            var borrower = context.Borrowers.Find(id);
+            return View(borrower);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Borrower borrower)
+        {
+            if (ModelState.IsValid)
+            {
+                if (borrower.BorrowerId == 0)
+                {
+                    context.Borrowers.Add(borrower);
+                }
+                else
+                {
+                    context.Borrowers.Update(borrower);
+                }
+                context.SaveChanges();
+                return RedirectToAction("Index", "Borrower");
+            }
+            else
+            {
+                ViewBag.Action = (borrower.BorrowerId == 0) ? "Add" : "Edit";
+                return View(borrower);
+            }
+        }
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            var borrower = context.Borrowers.Find(id);
+            return View(borrower);
+        }
+        [HttpPost]
+        public IActionResult Delete(Borrower borrower)
+        {
+            context.Borrowers.Remove(borrower);
+            context.SaveChanges();
+            return RedirectToAction("Index", "Borrower");
+        }
     }
 }
