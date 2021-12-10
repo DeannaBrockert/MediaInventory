@@ -25,6 +25,7 @@ namespace MediaInventory.Models
         [Required (ErrorMessage = "Please select a genre.")]
         public int GenreId { get; set; }
 
+
         public virtual Genre Genre { get; set; }
         public virtual MediaType MediaType { get; set; }
         public virtual Status Status { get; set; }

@@ -4,6 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediaInventory.Models;
+using Microsoft.EntityFrameworkCore;
+
+/**************************************************
+ * Date         Name            Comments
+ * 11/5/21      Deanna B        First deployment of media controller. Creating of media views
+ * 11/19/21     Deanna B        Add code for add, update, and delete.
+ * 12/3/21      Deanna B        Changed functions to use stored procedures.
+ * 
+ * ************************************************/
 
 namespace MediaInventory.Controllers
 {
@@ -48,13 +57,15 @@ namespace MediaInventory.Controllers
             {
                 if (media.MediaId == 0)
                 {
-                    context.Media.Add(media);
+                    //context.Media.Add(media);
+                    context.Database.ExecuteSqlRaw("execute sp_ins_media @p0, @p1, @p2, @p3, @p4", parameters: new[] { media.MediaName, media.ReleaseDate.ToString(), media.GenreId.ToString(), media.StatusId.ToString(), media.MediaTypeId.ToString() });
                 }
                 else
                 {
-                    context.Media.Update(media);
+                    //context.Media.Update(media);
+                    context.Database.ExecuteSqlRaw("execute sp_upd_media @p0, @p1, @p2, @p3, @p4, @p5", parameters: new[] { media.MediaId.ToString(), media.MediaName, media.ReleaseDate.ToString(), media.GenreId.ToString(), media.StatusId.ToString(), media.MediaTypeId.ToString() });
                 }
-                context.SaveChanges();
+                //context.SaveChanges();
                 return RedirectToAction("Index", "Media");
             }
             else
@@ -78,8 +89,9 @@ namespace MediaInventory.Controllers
         [HttpPost]
         public IActionResult Delete(Medium media)
         {
-            context.Media.Remove(media);
-            context.SaveChanges();
+            //context.Media.Remove(media);
+            //context.SaveChanges();
+            context.Database.ExecuteSqlRaw("execute sp_del_media @p0", parameters: new[] { media.MediaId.ToString() });
             return RedirectToAction("Index", "Media");
         }
     }

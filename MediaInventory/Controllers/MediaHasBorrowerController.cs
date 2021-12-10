@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 using MediaInventory.Models;
 using Microsoft.EntityFrameworkCore;
 
+/**************************************************
+ * Date         Name            Comments
+ * 11/5/21      Deanna B        First deployment of mediahasborrower controller. Creating of checkout views
+ * 11/19/21     Deanna B        Add code for add, update, and delete.
+ * 12/3/21      Deanna B        Changed functions to use stored procedures.
+ * 
+ * ************************************************/
+
 namespace MediaInventory.Controllers
 {
     public class MediaHasBorrowerController : Controller
@@ -46,15 +54,19 @@ namespace MediaInventory.Controllers
         {
             if (ModelState.IsValid)
             {
+                string returnedDate = mediahasborrower.ReturnDate.ToString();
+                returnedDate = (returnedDate == "") ? null : mediahasborrower.ReturnDate.ToString();
                 if (mediahasborrower.MediaHasBorrowerId == 0)
                 {
-                    context.MediaHasBorrowers.Add(mediahasborrower);
+                    //context.MediaHasBorrowers.Add(mediahasborrower);
+                    context.Database.ExecuteSqlRaw("execute sp_ins_media_has_borrower @p0, @p1, @p2, @p3", parameters: new[] { mediahasborrower.MediaId.ToString(), mediahasborrower.BorrowerId.ToString(), mediahasborrower.BorrowDate.ToString(), returnedDate });
                 }
                 else
                 {
-                    context.MediaHasBorrowers.Update(mediahasborrower);
+                    //context.MediaHasBorrowers.Update(mediahasborrower);
+                    context.Database.ExecuteSqlRaw("execute sp_upd_media_has_borrower @p0, @p1, @p2, @p3, @p4", parameters: new[] { mediahasborrower.MediaHasBorrowerId.ToString(), mediahasborrower.MediaId.ToString(), mediahasborrower.BorrowerId.ToString(), mediahasborrower.BorrowDate.ToString(), returnedDate });
                 }
-                context.SaveChanges();
+                //context.SaveChanges();
                 return RedirectToAction("Index", "MediaHasBorrower");
             }
             else

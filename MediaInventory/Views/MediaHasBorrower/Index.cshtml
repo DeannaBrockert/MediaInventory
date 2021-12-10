@@ -21,8 +21,8 @@
                 <td>@mediaHasBorrower.Media.MediaName</td>
                 <td>@mediaHasBorrower.Borrower.LastName</td>
                 <td>@mediaHasBorrower.Borrower.FirstName</td>
-                <td>@mediaHasBorrower.BorrowDate</td>
-                <td>@mediaHasBorrower.ReturnDate</td>
+                <td>@mediaHasBorrower.BorrowDate.ToString("dd MMM yyyy")</td>
+                <td>@mediaHasBorrower.ReturnDate?.ToString("dd MMM yyyy")</td>
                 <td><a asp-controller="MediaHasBorrower" asp-action="Edit" asp-route-id="@mediaHasBorrower.MediaHasBorrowerId">Edit</a></td>
             </tr>
         }
